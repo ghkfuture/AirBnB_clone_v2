@@ -40,18 +40,38 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, arg):
-        """Creates a new instance of a class, saves it, and prints id."""
-        args = shlex.split(arg)
+        """Creates a new instance of a class with optional parameters."""
+        args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
             return
-        if args[0] not in CLASSES:
+        class_name = args[0]
+        if class_name not in self.__classes:
             print("** class doesn't exist **")
             return
-        instance = CLASSES[args[0]]()
+
+        kwargs = {}
+        for param in args[1:]:
+            if "=" not in param:
+                continue
+            key, val = param.split("=", 1)
+            if val.startswith(""") and val.endswith("""):
+                val = val[1:-1].replace("\"", """).replace("_", " ")
+            elif "." in val:
+                try:
+                    val = float(val)
+                except ValueError:
+                    continue
+            else:
+                try:
+                    val = int(val)
+                except ValueError:
+                    continue
+            kwargs[key] = val
+
+        instance = self.__classes[class_name](**kwargs)
         instance.save()
         print(instance.id)
-
     def do_show(self, arg):
         """Prints string representation of instance based on class and id."""
         args = shlex.split(arg)
