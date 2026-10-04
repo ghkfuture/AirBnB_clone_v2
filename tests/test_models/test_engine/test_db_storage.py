@@ -14,12 +14,18 @@ from models.city import City
 class TestDBStorage(unittest.TestCase):
     """Test the DBStorage class"""
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db', "not testing db storage")
+    @unittest.skipIf(
+        os.getenv('HBNB_TYPE_STORAGE') != 'db',
+        "not testing db storage"
+    )
     def test_all_returns_dict(self):
         """Test that all returns a dictionary"""
         self.assertIsInstance(models.storage.all(), dict)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db', "not testing db storage")
+    @unittest.skipIf(
+        os.getenv('HBNB_TYPE_STORAGE') != 'db',
+        "not testing db storage"
+    )
     def test_new(self):
         """Test that new adds an object to the database"""
         state = State(name="California")
