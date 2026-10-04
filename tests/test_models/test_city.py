@@ -5,6 +5,7 @@ import unittest
 
 class TestCity(unittest.TestCase):
     """Placeholder tests for City."""
+
     def test_city_dummy(self):
         """Dummy test."""
         pass

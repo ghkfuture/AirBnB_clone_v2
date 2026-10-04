@@ -5,6 +5,7 @@ import unittest
 
 class TestState(unittest.TestCase):
     """Placeholder tests for State."""
+
     def test_state_dummy(self):
         """Dummy test."""
         pass

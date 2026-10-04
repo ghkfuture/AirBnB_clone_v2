@@ -5,6 +5,7 @@ import unittest
 
 class TestReview(unittest.TestCase):
     """Placeholder tests for Review."""
+
     def test_review_dummy(self):
         """Dummy test."""
         pass
