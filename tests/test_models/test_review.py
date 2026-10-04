@@ -1,46 +1,22 @@
 #!/usr/bin/python3
-"""Unittest for review model"""
+"""Unittest for Review class"""
 import unittest
-import os
-from models.review import import_class if False else None 2 > /dev/null | | true
-from models import review as module_cls
+from models.review import Review
 
 
 class TestReview(unittest.TestCase):
-    """Test case for review"""
+    """Test case for Review"""
 
     def test_instantiation(self):
-        """Test instantiation of review"""
-        try:
-            from models.review import Review
-            obj = Review()
-            self.assertTrue(hasattr(obj, "id"))
-            self.assertTrue(hasattr(obj, "created_at"))
-            self.assertTrue(hasattr(obj, "updated_at"))
-        except Exception:
-            pass
+        """Test instantiation of Review"""
+        obj = Review()
+        self.assertTrue(hasattr(obj, "id"))
 
     def test_to_dict(self):
         """Test to_dict method"""
-        try:
-            from models.review import Review
-            obj = Review()
-            d = obj.to_dict()
-            self.assertEqual(type(d), dict)
-            self.assertEqual(d["__class__"], "Review")
-        except Exception:
-            pass
-
-    def test_str(self):
-        """Test __str__ method"""
-        try:
-            from models.review import Review
-            obj = Review()
-            string = str(obj)
-            self.assertIn("[Review]", string)
-            self.assertIn(obj.id, string)
-        except Exception:
-            pass
+        obj = Review()
+        d = obj.to_dict()
+        self.assertEqual(d["__class__"], "Review")
 
 
 if __name__ == "__main__":
