@@ -30,35 +30,28 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """Instantiates a new model"""
-        if not kwargs:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.utcnow()
-            self.updated_at = datetime.utcnow()
-        else:
-            if 'id' not in kwargs:
-                self.id = str(uuid.uuid4())
-            if 'created_at' not in kwargs:
-                self.created_at = datetime.utcnow()
-            else:
-                if isinstance(kwargs['created_at'], str):
-                    kwargs['created_at'] = datetime.strptime(
-                        kwargs['created_at'], "%Y-%m-%dT%H:%M:%S.%f"
-                    )
-            if 'updated_at' not in kwargs:
-                self.updated_at = datetime.utcnow()
-            else:
-                if isinstance(kwargs['updated_at'], str):
-                    kwargs['updated_at'] = datetime.strptime(
-                        kwargs['updated_at'], "%Y-%m-%dT%H:%M:%S.%f"
-                    )
-            kwargs.pop('__class__', None)
-            for k, v in kwargs.items():
-                setattr(self, k, v)
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.utcnow()
+        self.updated_at = datetime.utcnow()
+
+        if kwargs:
+            for key, value in kwargs.items():
+                if key in ("created_at", "updated_at"):
+                    if isinstance(value, str):
+                        try:
+                            value = datetime.strptime(
+                                value, "%Y-%m-%dT%H:%M:%S.%f"
+                            )
+                        except ValueError:
+                            value = datetime.strptime(
+                                value, "%Y-%m-%d %H:%M:%S.%f"
+                            )
+                if key != "__class__":
+                    setattr(self, key, value)
 
     def __str__(self):
         """Returns a string representation of the instance"""
         d = self.to_dict()
-        d.pop('_sa_instance_state', None)
         return "[{}] ({}) {}".format(
             type(self).__name__, self.id, d
         )
@@ -72,15 +65,14 @@ class BaseModel:
     def to_dict(self):
         """Convert instance into dict format"""
         dictionary = {}
-        dictionary.update(self.__dict__)
-        dictionary.update({
-            '__class__': (self.__class__.__name__)
-        })
+        for key, value in self.__dict__.items():
+            if key != "_sa_instance_state":
+                dictionary[key] = value
+        dictionary['__class__'] = self.__class__.__name__
         if isinstance(self.created_at, datetime):
             dictionary['created_at'] = self.created_at.isoformat()
         if isinstance(self.updated_at, datetime):
             dictionary['updated_at'] = self.updated_at.isoformat()
-        dictionary.pop('_sa_instance_state', None)
         return dictionary
 
     def delete(self):
