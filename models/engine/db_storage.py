@@ -39,7 +39,7 @@ class DBStorage:
         classes = [User, State, City, Amenity, Place, Review]
 
         if cls is not None:
-            if type(cls) is str:
+            if isinstance(cls, str):
                 cls = eval(cls)
             query_objs = self.__session.query(cls).all()
             for obj in query_objs:
