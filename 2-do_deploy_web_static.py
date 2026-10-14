@@ -3,7 +3,8 @@
 from fabric.api import put, run, env
 import os
 
-env.hosts = ['52.55.249.213', '54.157.32.137']
+# TODO: Replace these with your actual web-01 and web-02 server IP addresses!
+env.hosts = ['<IP web-01>', '<IP web-02>']
 env.user = 'ubuntu'
 
 

@@ -6,7 +6,8 @@ from importlib import import_module
 pack_module = import_module('1-pack_web_static')
 deploy_module = import_module('2-do_deploy_web_static')
 
-env.hosts = ['52.55.249.213', '54.157.32.137']
+# TODO: Replace these with your actual web-01 and web-02 server IP addresses!
+env.hosts = ['<IP web-01>', '<IP web-02>']
 env.user = 'ubuntu'
 
 
