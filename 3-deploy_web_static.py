@@ -1,19 +1,18 @@
 #!/usr/bin/python3
-"""
-Fabric script that creates and distributes an archive to your web servers
-"""
+"""Fabric script that creates and distributes an archive to web servers"""
 from fabric.api import env
-import importlib
+from importlib import import_module
 
-do_pack = importlib.import_module('1-pack_web_static').do_pack
-do_deploy = importlib.import_module('2-do_deploy_web_static').do_deploy
+pack_module = import_module('1-pack_web_static')
+deploy_module = import_module('2-do_deploy_web_static')
 
-env.hosts = ['127.0.0.1']
+env.hosts = ['52.55.249.213', '54.157.32.137']
+env.user = 'ubuntu'
 
 
 def deploy():
-    """Creates and distributes an archive to the web servers"""
-    archive_path = do_pack()
+    """Creates and distributes an archive to your web servers"""
+    archive_path = pack_module.do_pack()
     if not archive_path:
         return False
-    return do_deploy(archive_path)
+    return deploy_module.do_deploy(archive_path)
